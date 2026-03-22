@@ -1,0 +1,686 @@
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;900&display=swap');
+
+:root {
+    --main-color: #E60012;
+    /* Default Theme Color (Red) */
+    --bg-color: #FDFBF7;
+    /* Light beige matching TRPG paper feel */
+    --panel-bg: #FFFFFF;
+    --text-color: #333333;
+    --border-color: #DDDDDD;
+    --sheet-shadow: rgba(0, 0, 0, 0.15);
+    --font-fam: 'Zen Kaku Gothic New', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-fam);
+    font-weight: 500;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.strong-text {
+    font-weight: 900;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Desktop Layout */
+@media (min-width: 1024px) {
+    .app-container {
+        flex-direction: row;
+        height: 100vh;
+        overflow: hidden;
+    }
+}
+
+/* =========================================
+   FORM PANEL (Left Pane)
+========================================= */
+.form-panel {
+    flex: 0 0 420px;
+    background-color: var(--panel-bg);
+    border-right: 1px solid var(--border-color);
+    overflow-y: auto;
+    padding: 30px 24px;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.03);
+    z-index: 10;
+}
+
+.app-title {
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 24px;
+    color: var(--main-color);
+    transition: color 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.actions-header {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn-primary {
+    background-color: var(--main-color);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-danger {
+    background-color: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+    flex: 0 0 auto;
+    width: 100px;
+}
+
+.btn-danger:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.form-section {
+    margin-bottom: 36px;
+    background: #FAFAFA;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #F0F0F0;
+}
+
+.form-section h2 {
+    font-size: 1.15rem;
+    color: var(--main-color);
+    border-bottom: 2px solid var(--main-color);
+    padding-bottom: 8px;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: inline-block;
+    width: 100%;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.section-desc {
+    font-size: 0.85rem;
+    color: #777;
+    margin-top: -12px;
+    margin-bottom: 16px;
+    line-height: 1.4;
+}
+
+/* Theme Colors Picker */
+.theme-colors {
+    display: flex;
+    gap: 15px;
+}
+
+.color-radio {
+    cursor: pointer;
+}
+
+.color-radio input {
+    display: none;
+}
+
+.color-swatch {
+    display: block;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: var(--c);
+    border: 3px solid transparent;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.color-radio input:checked+.color-swatch {
+    transform: scale(1.15);
+    border-color: #fff;
+    box-shadow: 0 0 0 3px var(--c), 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Inputs */
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 900;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.input-group input[type="text"],
+.input-group select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    background-color: #fff;
+    transition: all 0.2s ease;
+    color: #333;
+    font-weight: 500;
+}
+
+.input-group input[type="text"]:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    /* Neutral faint shadow for focus */
+}
+
+.input-group input[type="file"] {
+    font-size: 0.85rem;
+    width: 100%;
+    padding: 8px;
+    background: #fff;
+    border: 1px dashed #bbb;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.form-footer {
+    padding: 16px;
+    background-color: #eef2f9;
+    border-left: 4px solid #4a90e2;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+
+/* =========================================
+   PREVIEW PANEL (Right Pane)
+========================================= */
+.preview-panel-wrap {
+    flex: 1;
+    overflow: auto;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* Aesthetic dot pattern background */
+    background-image: radial-gradient(#d5d5d5 1px, transparent 0);
+    background-size: 20px 20px;
+    background-position: -10px -10px;
+}
+
+#sheet-wrapper {
+    /* Container to hold the scaled sheet if needed on mobile */
+    max-width: 100%;
+    overflow-x: auto;
+    padding-bottom: 40px;
+    /* For scrolling room */
+}
+
+/* The true A4 proportional sheet */
+.sheet {
+    width: 1000px;
+    height: 1400px;
+    /* 1000 * 1.4 = 5:7 ratio, upscaled for generous text room */
+    background-color: #fff;
+    box-shadow: 0 15px 50px var(--sheet-shadow);
+    padding: 45px 50px;
+    position: relative;
+    border: 1px solid #efefef;
+}
+
+/* Sheet Layout Components */
+.sheet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 5px solid var(--main-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+.sheet-logo {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--main-color);
+    line-height: 0.9;
+    letter-spacing: 3px;
+    transition: color 0.3s ease;
+}
+
+.sheet-catchphrase {
+    font-size: 1.3rem;
+    color: #666;
+    font-style: italic;
+    font-weight: 900;
+    max-width: 50%;
+    text-align: right;
+}
+
+.sheet-body {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+    /* Force spacing specifically before feats */
+}
+
+.sheet-col-left {
+    flex: 0 0 320px;
+    /* Scaled up for 1000px width */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sheet-col-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Reduced gap between stats and feats */
+}
+
+/* Portrait Box */
+.portrait-box {
+    width: 100%;
+    aspect-ratio: 1;
+    border: 4px solid var(--main-color);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: border-color 0.3s ease;
+    box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.portrait-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Overlay for cool styling (optional inner shadow) */
+.portrait-overlay {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+/* Profile Details */
+.profile-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile-item {
+    background-color: #fcfcfc;
+    border-left: 5px solid var(--main-color);
+    padding: 10px 14px;
+    transition: border-color 0.3s ease;
+    border-radius: 0 4px 4px 0;
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.02);
+}
+
+.p-label {
+    font-size: 0.8rem;
+    font-weight: 900;
+    color: var(--main-color);
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.p-value {
+    font-size: 1.05rem;
+    /* Smaller font size */
+    font-weight: 500;
+    /* Regular Medium 500 instead of 900 */
+    min-height: 1.5em;
+    /* Ensure structural integrity when empty */
+    word-break: break-all;
+    /* Allow breaking on long words */
+    white-space: normal;
+    /* Ensure text wraps */
+    color: #222;
+}
+
+.name-item .p-value {
+    font-size: 1.4rem;
+    /* Adjusted smaller */
+    font-weight: 900;
+    /* Name can stay bold */
+    letter-spacing: 1px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* Top Info Box (Name & Catchphrase in Right Col) */
+.top-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.top-info-box .name-item {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.top-info-box .name-item .p-value {
+    font-size: 2.3rem;
+    font-weight: 900;
+    color: var(--main-color);
+    line-height: 1.1;
+    letter-spacing: 2px;
+    border-bottom: 4px solid var(--main-color);
+    padding-bottom: 6px;
+}
+
+.top-info-box .catchphrase-item {
+    background: transparent;
+    border: none;
+    padding: 0 4px;
+}
+
+.top-info-box .catchphrase-item .p-value {
+    font-size: 1.15rem;
+    font-weight: 900;
+    font-style: italic;
+    color: #666;
+    line-height: 1.3;
+}
+
+.profile-grid .profile-item {
+    padding: 6px 10px;
+}
+
+.profile-grid .p-value {
+    font-size: 0.95rem;
+    /* Smaller size for grid items */
+}
+
+
+
+.catchphrase-item {
+    background-color: #f0f4f8;
+    /* Soft blueish tint to distinguish from flaw */
+}
+
+/* Memo Box */
+.memo-box {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+    border-top: 4px solid var(--main-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    flex: 1;
+    overflow: hidden;
+}
+
+.memo-box .box-title {
+    font-size: 1.1rem;
+    border-bottom: 2px dotted #ccc;
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+}
+
+.memo-textarea {
+    width: 100%;
+    flex: 1;
+    border: none;
+    resize: none;
+    outline: none;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #444;
+    line-height: 1.5;
+    background: transparent;
+    overflow: hidden;
+}
+
+/* Stats Styling */
+.stats-box {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    /* Restored gap for 1000px layout */
+}
+
+.stat-group {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--main-color);
+    color: #fff;
+    padding: 5px 12px;
+    /* Reduced padding */
+    transition: background-color 0.3s ease;
+}
+
+.stat-name {
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.skills-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 6px 12px;
+    /* Reduced padding */
+    gap: 6px 14px;
+    /* Reduced gap */
+}
+
+.skill-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px dotted #e0e0e0;
+    padding-bottom: 2px;
+}
+
+.skill-name {
+    font-size: 0.85rem;
+    font-weight: 900;
+    color: #444;
+    white-space: nowrap;
+}
+
+/* Diamonds for Attributes / Skills */
+.diamonds {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.diamond-dot {
+    width: 14px;
+    height: 14px;
+    transform: rotate(45deg);
+    border: 2px solid var(--main-color);
+    display: inline-block;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.3s, transform 0.1s;
+}
+
+.diamond-dot:hover {
+    transform: rotate(45deg) scale(1.2);
+}
+
+.diamond-dot.filled {
+    background-color: var(--main-color);
+}
+
+.diamond-dot.fixed {
+    cursor: not-allowed;
+}
+
+.diamond-dot.fixed:hover {
+    transform: rotate(45deg);
+}
+
+.stat-header .diamond-dot {
+    border-color: #fff;
+}
+
+.stat-header .diamond-dot.filled {
+    background-color: #fff;
+}
+
+/* Feats Section */
+.feats-box {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    /* Allow the feats box specifically to grow and fill remaining vertical A4 space */
+}
+
+.box-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    color: var(--main-color);
+    border-bottom: 3px solid var(--main-color);
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.feats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
+    gap: 12px;
+    flex: 1;
+}
+
+.feat-item {
+    background-color: #fbfbfb;
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--main-color);
+    padding: 12px 14px;
+    border-radius: 0 4px 4px 0;
+    transition: border-color 0.3s ease;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.feat-name {
+    font-size: 1.05rem;
+    font-weight: 900;
+    margin-bottom: 4px;
+    color: #111;
+    line-height: 1.2;
+}
+
+.feat-desc {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+/* Trope Attribute Selection Styles */
+.stat-name-clickable {
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    transition: color 0.2s, text-shadow 0.2s;
+}
+
+.stat-name-clickable:hover {
+    color: #ffcccc;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes flash-glow {
+    0% {
+        color: #fff;
+        text-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+    }
+    50% {
+        color: #ffff99;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 0, 0.5);
+    }
+    100% {
+        color: #fff;
+        text-shadow: 0 0 2px rgba(255, 255, 255, 0.2);
+    }
+}
+
+.stat-name.blinking {
+    animation: flash-glow 1.5s infinite;
+}

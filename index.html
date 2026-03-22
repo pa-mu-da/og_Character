@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outgunned Character Sheet Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- 画像化ライブラリ -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- 左ペイン: 入力フォーム -->
+        <aside class="form-panel">
+            <h1 class="app-title">OUTGUNNED SHEET GENERATOR</h1>
+
+            <div class="actions-header">
+                <button id="btn-export" class="btn btn-primary" title="画像を出力します">キャラクターシート生成</button>
+                <button id="btn-reset" class="btn btn-danger">リセット</button>
+            </div>
+
+            <!-- テーマカラー選択 -->
+            <section class="form-section">
+                <h2>1. テーマカラー (Theme)</h2>
+                <div class="theme-colors">
+                    <label class="color-radio" title="Red">
+                        <input type="radio" name="theme" value="#E60012" checked>
+                        <span class="color-swatch" style="--c: #E60012;"></span>
+                    </label>
+                    <label class="color-radio" title="Blue">
+                        <input type="radio" name="theme" value="#0068B7">
+                        <span class="color-swatch" style="--c: #0068B7;"></span>
+                    </label>
+                    <label class="color-radio" title="Green">
+                        <input type="radio" name="theme" value="#009944">
+                        <span class="color-swatch" style="--c: #009944;"></span>
+                    </label>
+                    <label class="color-radio" title="Orange">
+                        <input type="radio" name="theme" value="#F39800">
+                        <span class="color-swatch" style="--c: #F39800;"></span>
+                    </label>
+                    <label class="color-radio" title="Black">
+                        <input type="radio" name="theme" value="#1A1A1A">
+                        <span class="color-swatch" style="--c: #1A1A1A;"></span>
+                    </label>
+                </div>
+            </section>
+
+            <!-- プロフィール入力 -->
+            <section class="form-section">
+                <h2>2. プロフィール</h2>
+                <div class="input-group">
+                    <label for="i-name">名前</label>
+                    <input type="text" id="i-name" placeholder="ジョン・ドウ">
+                </div>
+                <div class="input-group">
+                    <label for="i-role">ロール</label>
+                    <select id="i-role">
+                        <!-- JavaScriptで動的に生成 -->
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="i-trope">キャラ付け</label>
+                    <select id="i-trope">
+                        <option value="">--選択--</option>
+                        <option value="LONE WOLF (一匹狼)">LONE WOLF (一匹狼)</option>
+                        <option value="ROOKIE (新人)">ROOKIE (新人)</option>
+                        <option value="VETERAN (ベテラン)">VETERAN (ベテラン)</option>
+                        <option value="WEIRDO (変人)">WEIRDO (変人)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="i-job">職業</label>
+                    <input type="text" id="i-job" placeholder="兵士">
+                </div>
+                <div class="input-group">
+                    <label for="i-age">年代</label>
+                    <select id="i-age">
+                        <option value="">--選択--</option>
+                        <option value="ヤング">ヤング</option>
+                        <option value="アダルト">アダルト</option>
+                        <option value="オールド">オールド</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="i-flaw">弱み</label>
+                    <input type="text" id="i-flaw" placeholder="俺はだれも信用しない。">
+                </div>
+                <div class="input-group">
+                    <label for="i-catchphrase">キャッチフレーズ</label>
+                    <input type="text" id="i-catchphrase" placeholder="下がってろ、俺に任せな">
+                </div>
+            </section>
+
+            <!-- イラスト画像 -->
+            <section class="form-section">
+                <h2>3. イラスト (Portrait)</h2>
+                <div class="input-group">
+                    <p class="section-desc">※正方形にトリミングされて表示されます</p>
+                    <input type="file" id="i-image" accept="image/*">
+                </div>
+            </section>
+
+            <!-- フィート選択 -->
+            <section class="form-section">
+                <h2>4. フィート (Feats)</h2>
+                <div id="feat-inputs-container">
+                    <!-- JavaScriptで動的に生成 -->
+                </div>
+            </section>
+
+            <div class="actions-header" style="margin-bottom: 24px;">
+                <button id="btn-export-bottom" class="btn btn-primary" title="画像を出力します">キャラクターシート生成</button>
+                <button id="btn-reset-bottom" class="btn btn-danger">リセット</button>
+            </div>
+
+            <div class="form-footer">
+                <p>💡 <b>Tips</b>: 能力値・技能の点はプレビューパネル上で直接クリックして（◆/◇）を切り替えることができます。値は自動で保存されます。</p>
+            </div>
+        </aside>
+
+        <!-- 右ペイン: プレビュー -->
+        <main class="preview-panel-wrap">
+            <div id="sheet-wrapper">
+                <div id="sheet-preview" class="sheet">
+                    <!-- レスポンシブプレビュー用のコンテナ -->
+                    <header class="sheet-header">
+                        <div class="sheet-logo">OUTGUNNED</div>
+                    </header>
+
+                    <div class="sheet-body">
+                        <!-- 左カラム: プロフィール、画像 -->
+                        <div class="sheet-col-left">
+                            <div class="portrait-box">
+                                <img id="p-image" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                                    alt="">
+                                <div class="portrait-overlay"></div>
+                            </div>
+
+                            <div class="profile-box">
+                                <div class="profile-grid">
+                                    <div class="profile-item">
+                                        <div class="p-label">ロール</div>
+                                        <div class="p-value" id="p-role"></div>
+                                    </div>
+                                    <div class="profile-item">
+                                        <div class="p-label">キャラ付け</div>
+                                        <div class="p-value" id="p-trope"></div>
+                                    </div>
+                                    <div class="profile-item">
+                                        <div class="p-label">職業</div>
+                                        <div class="p-value" id="p-job"></div>
+                                    </div>
+                                    <div class="profile-item">
+                                        <div class="p-label">年代</div>
+                                        <div class="p-value" id="p-age"></div>
+                                    </div>
+                                </div>
+                                <div class="profile-item flaw-item">
+                                    <div class="p-label">弱み</div>
+                                    <div class="p-value" id="p-flaw"></div>
+                                </div>
+                            </div>
+
+                            <!-- 左カラム下部: メモ -->
+                            <div class="memo-box">
+                                <div class="box-title">MEMO</div>
+                                <textarea id="p-memo" class="memo-textarea" placeholder="自由に書き込めます..."
+                                    spellcheck="false"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- 右カラム: 名前＆キャッチフレーズ、能力値、技能 -->
+                        <div class="sheet-col-right">
+                            <div class="top-info-box">
+                                <div class="profile-item name-item">
+                                    <div class="p-label" style="display:none;">名前</div>
+                                    <div class="p-value" id="p-name"></div>
+                                </div>
+                                <div class="profile-item catchphrase-item">
+                                    <div class="p-label" style="display:none;">キャッチフレーズ</div>
+                                    <div class="p-value" id="p-catchphrase-bottom"></div>
+                                </div>
+                            </div>
+
+                            <div class="stats-box" id="p-stats">
+                                <!-- JavaScriptで動的に生成 -->
+                            </div>
+                        </div>
+                    </div> <!-- End of sheet-body -->
+
+                    <!-- 新設下段フルサイズカラム: フィート -->
+                    <div class="feats-box">
+                        <div class="box-title">FEATS</div>
+                        <div class="feats-grid" id="p-feats">
+                            <!-- JavaScriptで動的に生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- メインスクリプト -->
+    <script src="script.js"></script>
+</body>
+
+</html>

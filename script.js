@@ -242,6 +242,12 @@ const featsConfig = {
     "Too Young to Die": { name: "死ぬには早すぎる", desc: "バッドボックスを埋めても、コンディションを受けない。「若い（Young）」ヒーロー作成時のみ取得可能。" }
 };
 
+const lightningFeats = [
+    "Car Jump", "Combo", "Counter", "Crazy Stunt", "Flying Kick",
+    "Get Down!", "Intuition", "I’ll Make a Phone Call", "Mastermind",
+    "Outsmart", "Spinout"
+];
+
 const FEATS_COUNT = 6;
 
 const defaultState = {
@@ -329,7 +335,10 @@ function updateFeatOptions() {
         let optionsHtml = '<option value="">--選択--</option>';
         
         availableFeats.forEach(featName => {
-            const displayName = featsConfig[featName] ? featsConfig[featName].name : featName;
+            let displayName = featsConfig[featName] ? featsConfig[featName].name : featName;
+            if (lightningFeats.includes(featName)) {
+                displayName += " ⚡";
+            }
             optionsHtml += `<option value="${featName}">${displayName}</option>`;
         });
         
@@ -663,10 +672,14 @@ function renderAll() {
 
         if (featKey && featsConfig[featKey]) {
             const featData = featsConfig[featKey];
+            const isLightning = lightningFeats.includes(featKey);
+            const lightningIcon = isLightning ? 
+                `<svg class="feat-lightning-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="var(--main-color)"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>` : '';
+            
             const featDiv = document.createElement('div');
             featDiv.className = 'feat-item';
             featDiv.innerHTML = `
-                <div class="feat-name">${featData.name}</div>
+                <div class="feat-name">${featData.name} ${lightningIcon}</div>
                 <div class="feat-desc">${featData.desc}</div>
             `;
             featsGroupEl.appendChild(featDiv);

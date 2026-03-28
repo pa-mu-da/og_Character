@@ -644,6 +644,13 @@ h3,
     line-height: 1.2;
 }
 
+.feat-lightning-icon {
+    width: 1.2em;
+    height: 1.2em;
+    margin-left: 2px;
+    vertical-align: -0.2em;
+}
+
 .feat-desc {
     font-size: 0.9rem;
     color: #555;
